@@ -1,0 +1,47 @@
+{
+  "name": "gongarceio/trending-entries",
+  "description": "Keep track of your most visited entries",
+  "type": "craft-plugin",
+  "license": "mit",
+  "support": {
+    "email": "info@gongarce.io",
+    "issues": "https://github.com/zalito12/trending-entries/issues?state=open",
+    "source": "https://github.com/zalito12/trending-entries",
+    "docs": "https://github.com/zalito12/trending-entries",
+    "rss": "https://github.com/zalito12/trending-entries/releases.atom"
+  },
+  "require": {
+    "php": ">=8.2",
+    "craftcms/cms": "^5.9.0"
+  },
+  "require-dev": {
+    "craftcms/ecs": "dev-main",
+    "craftcms/phpstan": "dev-main"
+  },
+  "autoload": {
+    "psr-4": {
+      "ggio\\TrendingEntries\\": "src/"
+    }
+  },
+  "extra": {
+    "handle": "trending-entries",
+    "name": "Trending Entries",
+    "developer": "Gonzalo García Arce",
+    "documentationUrl": "https://github.com/zalito12/trending-entries"
+  },
+  "scripts": {
+    "check-cs": "ecs check --ansi",
+    "fix-cs": "ecs check --ansi --fix",
+    "phpstan": "phpstan --memory-limit=1G"
+  },
+  "config": {
+    "sort-packages": true,
+    "platform": {
+      "php": "8.2"
+    },
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true,
+      "craftcms/plugin-installer": true
+    }
+  }
+}
