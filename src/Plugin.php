@@ -4,11 +4,20 @@ namespace ggio\TrendingEntries;
 
 use Craft;
 use craft\base\Plugin as BasePlugin;
+use craft\web\twig\variables\CraftVariable;
+use ggio\TrendingEntries\services\CounterService;
+use ggio\TrendingEntries\services\RankingService;
+use ggio\TrendingEntries\variables\TrendingEntriesVariable;
+use yii\base\Event;
 
 /**
  * Trending Entries plugin
  *
  * @method static Plugin getInstance()
+ *
+ * @property CounterService counter
+ * @property RankingService ranking
+ *
  * @author Gonzalo García Arce <info@gongarce.io>
  * @copyright Gonzalo García Arce
  * @license MIT
@@ -30,18 +39,23 @@ class Plugin extends BasePlugin
     {
         parent::init();
 
-        $this->attachEventHandlers();
+        if (Craft::$app->getRequest()->getIsConsoleRequest()) {
+            $this->controllerNamespace = 'ggio\TrendingEntries\console\controllers';
+        }
 
-        // Any code that creates an element query or loads Twig should be deferred until
-        // after Craft is fully initialized, to avoid conflicts with other plugins/modules
-        Craft::$app->onInit(function() {
-            // ...
-        });
-    }
+        $this->setComponents([
+            'counter' => CounterService::class,
+            'ranking' => RankingService::class,
+        ]);
 
-    private function attachEventHandlers(): void
-    {
-        // Register event handlers here ...
-        // (see https://craftcms.com/docs/5.x/extend/events.html to get started)
+        Event::on(
+            CraftVariable::class,
+            CraftVariable::EVENT_INIT,
+            function (Event $event) {
+                /** @var CraftVariable $variable */
+                $variable = $event->sender;
+                $variable->set('trendingEntries', TrendingEntriesVariable::class);
+            }
+        );
     }
 }

@@ -12,7 +12,8 @@
   },
   "require": {
     "php": ">=8.2",
-    "craftcms/cms": "^5.9.0"
+    "craftcms/cms": "^5.9.0",
+    "yiisoft/yii2-redis": "^2.1"
   },
   "require-dev": {
     "craftcms/ecs": "dev-main",
