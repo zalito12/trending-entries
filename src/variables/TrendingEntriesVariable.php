@@ -20,11 +20,9 @@ class TrendingEntriesVariable
         // Join with our custom scores table
         $query->innerJoin(
             '{{%trending_entries_scores}} scores',
-            '[[scores.entryId]] = [[elements.id]]'
+            ['and', '[[scores.entryId]] = [[elements.id]]', ['scores.listKey' => $listKey]]
         );
 
-        // Filter by the specific list and order by score descending
-        $query->andWhere(['scores.listKey' => $listKey]);
         $query->orderBy(['scores.score' => SORT_DESC]);
 
         return $query;
