@@ -52,6 +52,8 @@ fetch('/actions/trending-entries/stats/increment', {
 });
 ```
 
+> Remember that if you are using static caching or a CDN, you should avoid to retrieve the csfrToken from the server on your templates. More info: https://craftcms.com/knowledge-base/enabling-csrf-protection.
+
 ### 2. Ranking Calculation
 
 The trending score is calculated using the following formula:
@@ -118,6 +120,7 @@ This ensures you always show 5 items, filling gaps with recent posts if needed:
 
 The following environment variables can be configured in your `.env` file or `config/app.php` to customize the plugin's behavior:
 
+- `TRENDING_AMP_DOMAIN` (string): If present amp validation will be added to stats controller. It must be your amp publisher domain.
 - `TRENDING_SECTIONS` (string, required): A comma-separated list of section handles that the plugin should track for trending entries (e.g., `news,blog,videos`). *This variable is required for the plugin to work correctly.*
 - `TRENDING_WINDOW_DAYS` (int, optional): The number of days to query entries for trending calculations. Defaults to `7`.
 - `TRENDING_GRAVITY` (float, optional): Adjusts the impact of "age" in the trending score formula. A higher value means older content decays faster. Defaults to `1.2`.
