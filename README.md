@@ -62,9 +62,36 @@ $$Score = \\frac{(Views - 1)^{0.8}}{(AgeInHours + 2)^{1.2}}$$
 
 This ensures that a post with 1,000 views from last year won't outrank a post with 100 views from today.
 
-### Automation (Cron Job)
+### Automation
 
 To update the rankings, you must run the sync command periodically. We recommend once per hour.
+
+You can execute it directly or push it to Craft's queue. Using the queue is the recommended approach for production environments, as it prevents timeouts and leverages Craft's built-in retry logic.
+
+#### Option 1: Queue (Recommended)
+
+Pushing the job to the queue is safer for heavy calculations and works great with hosting providers that support Craft's queue workers (e.g., Servd, Fortrabbit, or any server running a queue listener).
+
+**Push to Queue via Cron**
+
+```
+0 * * * * php /path/to/project/craft trending-entries/sync/calculate news blog --queue
+```
+
+> The `--queue` flag (or `-q`) pushes the calculation job to Craft's queue and exits immediately. The actual processing is handled by a queue worker.
+
+**Manual Push**
+
+```bash
+php craft trending-entries/sync/calculate news blog --queue
+```
+
+**Monitoring**
+You can monitor the job status, progress, and any errors from the Craft Control Panel at **Utilities > Queue Manager**.
+
+#### Option 2: Direct Execution (Cron Job)
+
+If you prefer not to use the queue, you can run the calculation directly. Ensure your PHP CLI timeout is sufficient for large datasets.
 
 **Standard Crontab**
 
